@@ -28,6 +28,10 @@ public abstract class SelectableMonoBehaviour : MonoBehaviour
 
     bool ThisIsSelected(GameObject otherGameObject)
     {
+        if(otherGameObject == null)
+        {
+            return false;
+        }
         return gameObject.GetInstanceID() == otherGameObject.GetInstanceID();
     }
 

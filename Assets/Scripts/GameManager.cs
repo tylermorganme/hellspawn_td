@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // I should make this a Singleton at some point.
 public class GameManager : MonoBehaviour
@@ -48,4 +49,8 @@ public class GameManager : MonoBehaviour
         _onSelectionChanged.RaiseEvent(_selection);
     }
 
+    public void OnCancel(InputValue value)
+    {
+        ClearSelection();
+    }
 }
