@@ -77,13 +77,14 @@ public class IslandManager : MonoBehaviour
         _hasNewPlatforms = true;
     }
 
-    void GrowPlatformRandom(Direction direction)
+    void GrowPlatformInDirection(Direction direction)
     {
         Vector2 directionVector = Vector2.zero;
         if (direction == Direction.Up) directionVector = Vector2.up;
         if (direction == Direction.Down) directionVector = Vector2.down;
-        if (direction == Direction.Left) directionVector = Vector2.left;
-        if (direction == Direction.Right) directionVector = Vector2.right;
+        // Not sure why these need to be opposite but it seems to work.
+        if (direction == Direction.Left) directionVector = Vector2.right;
+        if (direction == Direction.Right) directionVector = Vector2.left;
 
         var keys = _platforms.Keys;
         var index = Random.Range(0, keys.Count);
@@ -103,25 +104,13 @@ public class IslandManager : MonoBehaviour
 
     
     [ContextMenu("GrowUp")]
-    void GrowPlatformRandomPositiveY()
-    {
-        GrowPlatformRandom(Direction.Up);
-    }
+    public void GrowPlatformUp() => GrowPlatformInDirection(Direction.Up);
     [ContextMenu("GrowDown")]
-    void GrowPlatformRandomNegativeY()
-    {
-        GrowPlatformRandom(Direction.Down);
-    }
+    public void GrowPlatformDown() => GrowPlatformInDirection(Direction.Down);
     [ContextMenu("GrowLeft")]
-    void GrowPlatformRandomNegativeX()
-    {
-        GrowPlatformRandom(Direction.Left);
-    }
+    public void GrowPlatformLeft() => GrowPlatformInDirection(Direction.Left);
     [ContextMenu("GrowRight")]
-    void GrowPlatformRandomPositiveX()
-    {
-        GrowPlatformRandom(Direction.Right);
-    }
+    public void GrowPlatformRight() => GrowPlatformInDirection(Direction.Right);
 
     // Update is called once per frame
     void Update()
