@@ -1,28 +1,18 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(DropEnemiesOnPlatform))]
+[RequireComponent(typeof(EnemyDropper))]
 public class MoveTowardsCenter : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed;
-    [SerializeField]
-    private float _slowSpeed = 0.25f;
-
-    [SerializeField]
-    private DropEnemiesOnPlatform _dropEnemiesOnPlatform;
+    private EnemyDropper _enemyDropper;
     private void Awake()
     {
-        _dropEnemiesOnPlatform = gameObject.GetComponent<DropEnemiesOnPlatform>();
+        _enemyDropper = gameObject.GetComponent<EnemyDropper>();
     }
     // Update is called once per frame
     void Update()
     {
-        float modifiedSpeed = _speed;
-        if (_dropEnemiesOnPlatform.PayloadTarget == null)
-        {
-            modifiedSpeed = _speed * _slowSpeed;
-        }
-        transform.position += -_speed * Time.deltaTime * new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 direction = new Vector3(transform.position.x, 0, transform.position.z).normalized;
+        transform.position += -_enemyDropper.GetSpeed() * Time.deltaTime * direction;
     }
 }

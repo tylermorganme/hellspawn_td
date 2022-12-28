@@ -19,7 +19,7 @@ public abstract class SelectableMonoBehaviour : MonoBehaviour
 
     public virtual void OnMouseDown()
     {
-        // Not sure if this will work. Theoretically blocks this from happening if I'm over UI.
+        // Theoretically blocks this from happening if I'm over UI. Seems to work.
         // Found here https://www.youtube.com/watch?v=rATAnkClkWU
         if (EventSystem.current.IsPointerOverGameObject())
             return;

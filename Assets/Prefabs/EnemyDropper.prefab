@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3485214381537999678}
   - component: {fileID: 3485214381537999679}
   - component: {fileID: 3823954616033042193}
+  - component: {fileID: 3417828329358414007}
   m_Layer: 8
   m_Name: EnemyDropper
   m_TagString: Untagged
@@ -46,8 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94e2bbc77871a30489fdcf0e358c95dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0.25
-  _dropEnemiesOnPlatform: {fileID: 0}
 --- !u!114 &3823954616033042193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,12 +59,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93249d1ee37d9514c8f6296c54bf5a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _layersToCheck:
+  _validDropLayers:
     serializedVersion: 2
     m_Bits: 128
+  _blockingDropLayers:
+    serializedVersion: 2
+    m_Bits: 1024
   _enemyPrefab: {fileID: 2762496969728348888, guid: e8b2ed7f2c6c88244ab17b4cf38d25aa, type: 3}
-  _timeBetweenDrops: 0.25
+  _timeBetweenDrops: 1
   _enemiesToDrop: 10
+--- !u!114 &3417828329358414007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3485214381537999672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ab130960ebb034e975cfa85795caa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initialSpeed: 10
+  _droppingMovementSpeedFactor: 0.25
 --- !u!1 &3485214381743978288
 GameObject:
   m_ObjectHideFlags: 0

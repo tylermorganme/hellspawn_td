@@ -5100,12 +5100,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 623573305654367473, guid: 54f556285101b834c927050bc6fafde9, type: 3}
       propertyPath: m_Name
-      value: Platform
+      value: Platform Key Variant
       objectReference: {fileID: 0}
     - target: {fileID: 623573305804555176, guid: 54f556285101b834c927050bc6fafde9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c70e075a2144ba04784d74b7b2889fd3, type: 2}
+    - target: {fileID: 5701555306045134946, guid: 54f556285101b834c927050bc6fafde9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8485642745406182487, guid: 54f556285101b834c927050bc6fafde9, type: 3}
       propertyPath: m_RootOrder
       value: 0

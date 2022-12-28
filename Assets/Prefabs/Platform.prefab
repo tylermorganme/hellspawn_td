@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1741c84d7f79a1a4d8f52489cd71d8b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _wallPrefab: {fileID: 8404841085558094167, guid: a5f1b88798cb652418ed4ab84bed2e74, type: 3}
 --- !u!1 &623573305804555175
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,13 +606,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 623573305804555176}
-        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-        m_MethodName: set_material
-        m_Mode: 2
+      - m_Target: {fileID: 402096308749040133}
+        m_TargetAssemblyTypeName: BuildOnPlatform, Assembly-CSharp
+        m_MethodName: BuildWall
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 2100000, guid: 4930c6ffa5b9b9f4098249a43abf8506, type: 2}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

@@ -1,10 +1,13 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyDropper))]
 public class DropEnemiesOnPlatform : MonoBehaviour
 {
     [SerializeField]
-    LayerMask _layersToCheck;
+    LayerMask _validDropLayers;
+    [SerializeField]
+    LayerMask _blockingDropLayers;
     [SerializeField]
     GameObject _enemyPrefab;
     [SerializeField]
@@ -18,6 +21,7 @@ public class DropEnemiesOnPlatform : MonoBehaviour
     public GameObject PayloadTarget => _payloadTarget;
     private int _droppedEnemies;
     private bool HasEnemiesToDrop => _droppedEnemies < _enemiesToDrop;
+    public bool HasStartedDropping => _droppedEnemies > 0;
 
     private void Awake()
     {
@@ -51,14 +55,24 @@ public class DropEnemiesOnPlatform : MonoBehaviour
 
         // Use a RaycastHit structure to store information about the object that the ray hits
         RaycastHit hit;
-        bool rayCastHit = Physics.Raycast(ray, out hit, 1000);
-        bool isInLayersToCheck = rayCastHit ? (_layersToCheck.value & 1 << hit.collider.gameObject.layer) > 0 : false;
+        //bool rayCastHit = Physics.Raycast(ray, out hit, 1000);
+        //bool isInLayersToCheck = rayCastHit ? (_layersToCheck.value & 1 << hit.collider.gameObject.layer) > 0 : false;
+        //// Cast the ray and check if it hits gameObject2
+        //if (rayCastHit && isInLayersToCheck)
+        //{
+        //    _payloadTarget = hit.collider.gameObject;
+        //    //Debug.Log("Is Above platform");
+        //} else
+        //{
+        //    _payloadTarget = null;
+        //}
+        bool rayCastHit = Physics.Raycast(ray, out hit, 1000, _validDropLayers);
         // Cast the ray and check if it hits gameObject2
-        if (rayCastHit && isInLayersToCheck)
+        if (rayCastHit)
         {
             _payloadTarget = hit.collider.gameObject;
-            //Debug.Log("Is Above platform");
-        } else
+        }
+        else
         {
             _payloadTarget = null;
         }
