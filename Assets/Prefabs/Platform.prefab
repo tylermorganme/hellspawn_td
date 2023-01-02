@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5305382586228463363}
   - component: {fileID: 335910585982983505}
   - component: {fileID: 6980965032719718770}
-  - component: {fileID: 402096308749040133}
+  - component: {fileID: -2373900751253766085}
   m_Layer: 7
   m_Name: Platform
   m_TagString: Untagged
@@ -79,7 +79,7 @@ MonoBehaviour:
   _onSelectionChanged: {fileID: 11400000, guid: d091445fb03463d4bb62b728aaa1a11f, type: 2}
   _newMaterial: {fileID: 2100000, guid: 6968e89851431104b8f931c37d69356b, type: 2}
   _renderer: {fileID: 623573305804555176}
---- !u!114 &402096308749040133
+--- !u!114 &-2373900751253766085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 623573305654367473}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1741c84d7f79a1a4d8f52489cd71d8b3, type: 3}
+  m_Script: {fileID: 11500000, guid: 06115a6428c92654ebdb7ba16efb86b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _wallPrefab: {fileID: 8404841085558094167, guid: a5f1b88798cb652418ed4ab84bed2e74, type: 3}
@@ -606,8 +606,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 402096308749040133}
-        m_TargetAssemblyTypeName: BuildOnPlatform, Assembly-CSharp
+      - m_Target: {fileID: -2373900751253766085}
+        m_TargetAssemblyTypeName: PlatformManager, Assembly-CSharp
         m_MethodName: BuildWall
         m_Mode: 1
         m_Arguments:
