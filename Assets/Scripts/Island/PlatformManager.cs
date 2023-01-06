@@ -20,7 +20,7 @@ public class PlatformManager : MonoBehaviour
         _astar = FindObjectOfType<AstarPath>();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (_shouldUpdatePathfinding)
         {

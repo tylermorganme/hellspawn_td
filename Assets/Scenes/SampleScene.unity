@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 096847751841a654190c6fe0c43a6d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedCurrency: 0
+  SelectedCurrency: 1
 --- !u!4 &228260290
 Transform:
   m_ObjectHideFlags: 0
@@ -1003,7 +1003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAACAn+tBNqtakgIAAJ4FAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGFVE1v2zAM/SuBztsQp2227rY5aboBbYNmQw9LD4xEx0JkydBHk7TIfx8lO7WbFRjQwg75SD4+kn5hUrsauTd2ZqW4MQLZ1wGL7+zDoHNe4w7WRi/kMx4xD1L4MoIgYe7BS0P2LIY5U6G3kn/TaxXBQzIGLQtjq6lYY26cd2QuQDkklzU+RmsyvQzYrg3Yt8/n+Bwc6I2j9mj/hwqaK6hqFJFtB74YHuH0loCaOmkxFzG7UUq6lgbz+zq1mUPtAjVBACGB2koEhp9iRIlyXXr6OeqH3xWFQ9/SsrCfSEv6NHnZd9OIVoHbNNyeQIVYKRt9aWg1WW/eAyR/YU11faycpa58KfnmHvYcnO/p2jdPOvJZEmkLagMrhQ8l6lszsyZoQU5vQwwNDkeTXqrX7vIS+abDNWRPjKH+d0ZZN6ND6n+XK1mtkpbnjWGhTNL8Msagpen8IMJpM1ybiayRxG+Hv2DdX6HWcSWt8+RqC+rIbmWCjVA2TZrFZoLPjdWYzC3nGjUov59TGn86xBNfr+yJ5wrisbTFW9/xBk5CkrnDD4cnrrnZdsNy+DNU9dxI7RcIlpe9fK402xt05V3wSmrsOoqOWxIxN1o3C+jeCVsEWwDvhXnc+WBxAh7SIRAn2hLRDyVBU4QOSsWFTF3E5H+oi/j3GEUugeqqZGa3RqcTevN8jIuwDlK83XOWZePiM5yf4SX980J85Kvx+GwMBT/nBcD4jKU7kJo0BzVvRGtHRRuku1407fzxezaYWajT7QkL25l8rkxv/FIXZsEtor57k8GhpRr0kRBTIanLBXovdVo99rJkyvANiuUrfpl0ne68hWWn2JLV8sn4aFmyPH3EliyaX69qbvFJ4jbWPiY7sMNfUEsDBBQAAAgIAACAn+vjtHQPbAAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jO00FFQSi9KLMgoBooYgjilmSkgdrSSoaFZmnmiiXGqJRAnp6XoJieZmRmbJaYlmySnJSaaGSvFAtWXVBak+iXmpkL0BCSWZKRl5qVk5qXruRdlpriDjFaKrQUAUEsBAi0AFAAACAgAAICf60E2q1qSAgAAngUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAICf6+O0dA9sAAAAeAAAAAkAJAAAAAAAAAAAAAAA3wIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAACWAwAAAAA=
+    dataString: UEsDBBQAAAgIAACAn+shsv54kgIAAJ4FAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGFVNtu2zAM/ZVAz9sQ95Kte9ucNt2AtkGzoQ9zHxiZjoXIkqFLk7TIv4+S7dr1CgxIYPnwkDy8yC9MKFsjd9osjMhvdI7s64SFM/sw6Y3XuIeNVivxjB3nQeSuDCSInHtwQhOeBDerK3RG8G9qIwN5SqBXotCmusw3mGrrLMEFSItkMtoFb0XQy4TtW4dD+3wOz8mRThyVQ/M/lldcQlVjHtT25PNpR6dTJCqqpOWch+haSmFbGcwd6lhmCrX1VAQRcgFUVhQw/RQ8ShSb0tHrydD9rigsulaWgcNcGOpPE5d9103TKrDbRtsTSB8yJSdfGllN1Jv3CNFeGF1dd5mTWJUrBd/ew4GDDaAzHkfofKg9iV3agdzCWuJDiepWL4z2Ku+dvcWT+WBGr+WlJfJtz2vUjkBf/zukpB/SMTZgn0pRraOgswZYSR2bfhF80NB4fpDkuBq2jURoEPHb4i/YDHeoNVwJYx2Z2oQqqFtrbwKVXdEhNJ97l2qjMKKt5BoVSHdYUhQ3HuLINsg6slxBuCxt7tbW3YGRS4R7/nQ6Mi31DrtINIufvqqXWii3QjC8HMSzpd7doC3vvJNCYV9RMNxSD1OtVLOA9h23lTcF8IGbw73zBufgIF4E0kRLkg9dqY3RQ3kpw0LGKkLwP1RF+D2GJpdAeWWE2a1W8Qq9eT6GPdh4kb/dc5Yks+IznJ3iBf15kX/k69nsdAYFP+MFwOyUxXsgFPUc5LJpWjsqWiDV16Jo6bvv2WRhoI53LzewW4jnSg/GL1ShV9wgqrs3ESwaykEfifwyF1TlCp0TKm4ee8mY1HyLefbKz2JfL/fOQNZ3LGO1eNIuIBlL40csYwF+vVRLg08CdyF3F+zIjn8BUEsDBBQAAAgIAACAn+vjtHQPbAAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jO00FFQSi9KLMgoBooYgjilmSkgdrSSoaFZmnmiiXGqJRAnp6XoJieZmRmbJaYlmySnJSaaGSvFAtWXVBak+iXmpkL0BCSWZKRl5qVk5qXruRdlpriDjFaKrQUAUEsBAi0AFAAACAgAAICf6yGy/niSAgAAngUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAICf6+O0dA9sAAAAeAAAAAkAJAAAAAAAAAAAAAAA3wIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAACWAwAAAAA=
     upgradeData: 
     file_cachedStartup: {fileID: 4900000, guid: 6ed940b78101e7c49bc36e4b464e16f9, type: 3}
     data_cachedStartup: 
@@ -1583,6 +1583,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3417828329358414007, guid: 465afe3410da83a499edeca7ab1fe0b1, type: 3}
+      propertyPath: _droppingMovementSpeedFactor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3485214381537999672, guid: 465afe3410da83a499edeca7ab1fe0b1, type: 3}
       propertyPath: m_Name
       value: EnemyDropper
@@ -1634,6 +1638,10 @@ PrefabInstance:
     - target: {fileID: 3485214381537999679, guid: 465afe3410da83a499edeca7ab1fe0b1, type: 3}
       propertyPath: _slowSpeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3823954616033042193, guid: 465afe3410da83a499edeca7ab1fe0b1, type: 3}
+      propertyPath: _enemiesToDrop
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3823954616033042193, guid: 465afe3410da83a499edeca7ab1fe0b1, type: 3}
       propertyPath: _timeBetweenDrops

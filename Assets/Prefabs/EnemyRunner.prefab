@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6750056286861803004}
   m_Layer: 0
   m_Name: EnemyRunner
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,11 +46,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 2762496969728348888}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 2.5
+  m_Enabled: 0
+  m_Radius: 1
   m_Height: 10
   m_Direction: 1
-  m_Center: {x: 0, y: 5, z: 0}
+  m_Center: {x: 0, y: 5.01, z: 0}
 --- !u!114 &7368456915892872977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,9 +115,9 @@ MonoBehaviour:
   maxAcceleration: -2.5
   rotationSpeed: 360
   slowdownDistance: 0.6
-  pickNextWaypointDist: 2
-  endReachedDistance: 0.1
-  alwaysDrawGizmos: 0
+  pickNextWaypointDist: 3
+  endReachedDistance: 3
+  alwaysDrawGizmos: 1
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 1

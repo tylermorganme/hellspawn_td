@@ -10,7 +10,7 @@ public enum Currency
 public class CurrencyManager : MonoBehaviour
 {
     //[HideInInspector]
-    public Currency SelectedCurrency;
+    public Currency SelectedCurrency = Currency.Creation;
     private Dictionary<Currency, int> _currencyBank;
 
     public void AddCurrency(Currency c, int amount)
