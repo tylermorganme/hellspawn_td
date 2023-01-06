@@ -11,15 +11,18 @@ public class GameManager : MonoBehaviour
     GameObject _island;
     [SerializeField]
     Camera _camera;
-    private GameObject _selection;
     [SerializeField]
     private bool _shouldLogSelection = true;
-
-    public GameObject Island => _island;
-    public Camera Camera => _camera;
-
+    [SerializeField]
+    private CurrencyManager _currencyManager;
     [SerializeField]
     private SOGameObjectChannel _onSelectionChanged;
+
+    private GameObject _selection;
+    public GameObject Island => _island;
+    public Camera Camera => _camera;
+    public CurrencyManager CurrencyManager => _currencyManager;
+
 
     public void Awake()
     {

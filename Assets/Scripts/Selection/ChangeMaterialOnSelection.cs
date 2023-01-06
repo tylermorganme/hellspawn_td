@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //public class ChangeMaterialOnClick : SelectableMonoBehaviour
-public class ChangeMaterialOnClick : SelectableMonoBehaviour
+public class ChangeMaterialOnSelection : SelectableMonoBehaviour
 {
     [SerializeField]
     Material _newMaterial;
@@ -12,7 +12,7 @@ public class ChangeMaterialOnClick : SelectableMonoBehaviour
     [SerializeField]
     private Renderer _renderer;
 
-    public override void Awake()
+    protected override void Awake()
     {
         base.Awake();
         _originalMaterial = _renderer.material;

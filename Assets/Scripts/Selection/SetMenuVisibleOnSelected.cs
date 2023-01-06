@@ -2,22 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetMenuVisibleOnSelected : SelectableMonoBehaviour
+public class SetGameObjectVisibleOnSelection : SelectableMonoBehaviour
 {
     [SerializeField]
-    Canvas _radialMenu;
+    Canvas _menu;
 
     private void Start()
     {
-        _radialMenu.gameObject.SetActive(false);
+        _menu.gameObject.SetActive(false);
     }
     public override void HandleSelected(GameObject selectedGameObject)
     {
-        _radialMenu.gameObject.SetActive(true);
+        _menu.gameObject.SetActive(true);
     }
 
     public override void HandleUnselected(GameObject selectedGameObject)
     {
-        _radialMenu.gameObject.SetActive(false);
+        _menu.gameObject.SetActive(false);
     }
 }

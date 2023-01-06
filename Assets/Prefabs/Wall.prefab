@@ -93,7 +93,7 @@ BoxCollider:
   m_GameObject: {fileID: 5690196256581807376}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -106,6 +106,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6353239468103459096}
+  - component: {fileID: 6994529405003324092}
+  - component: {fileID: 1393726752144316799}
+  - component: {fileID: 5781868017806716118}
+  - component: {fileID: 4608910490867881779}
   m_Layer: 10
   m_Name: Wall
   m_TagString: Untagged
@@ -129,3 +133,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6994529405003324092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404841085558094167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad9afe23446d5d49b6aae679a91b421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onSelectionChanged: {fileID: 11400000, guid: d091445fb03463d4bb62b728aaa1a11f, type: 2}
+  _newMaterial: {fileID: 2100000, guid: 4930c6ffa5b9b9f4098249a43abf8506, type: 2}
+  _renderer: {fileID: 7332228557181799859}
+--- !u!114 &1393726752144316799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404841085558094167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de950d0059a08364ca3b9bd102149bd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5781868017806716118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404841085558094167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61ff3ad2c46caa4e99fe28d248e4410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &4608910490867881779
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404841085558094167}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 3, z: 10}
+  m_Center: {x: 0, y: 1.5, z: 0}
