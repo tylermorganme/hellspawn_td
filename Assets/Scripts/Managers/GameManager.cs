@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 // I should make this a Singleton at some point.
 public class GameManager : MonoBehaviour
@@ -22,6 +24,10 @@ public class GameManager : MonoBehaviour
     public GameObject Island => _island;
     public Camera Camera => _camera;
     public CurrencyManager CurrencyManager => _currencyManager;
+
+    public UnityEvent OnGameStart;
+    public UnityEvent OnGamePause;
+    public UnityEvent OnGameEnd;
 
 
     public void Awake()
@@ -55,5 +61,21 @@ public class GameManager : MonoBehaviour
     public void OnCancel(InputValue value)
     {
         ClearSelection();
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        OnGameStart?.Invoke();
+    }
+
+    public void PauseGame()
+    {
+        OnGamePause?.Invoke();
+    }
+
+    public void EndGame()
+    {
+        OnGameEnd?.Invoke();
     }
 }
