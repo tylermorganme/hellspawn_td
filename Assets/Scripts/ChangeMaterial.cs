@@ -6,6 +6,9 @@ public class ChangeMaterial : MonoBehaviour
 {
     [SerializeField]
     Material _newMaterial;
+    [SerializeField]
+    float _revertAfterTime = 0;
+
     private Dictionary<Renderer, Material> _originalMaterials = new Dictionary<Renderer, Material>();
 
     void Awake()
@@ -32,6 +35,17 @@ public class ChangeMaterial : MonoBehaviour
         foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
         {
             renderer.material = _newMaterial;
+        }
+        if (_revertAfterTime > 0)
+            StartCoroutine(RevertMaterialAfterTime(_revertAfterTime));
+    }
+
+    private IEnumerator RevertMaterialAfterTime(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            RevertToOriginalMaterial();
         }
     }
 }

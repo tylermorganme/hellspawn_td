@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +13,7 @@ public class Health : MonoBehaviour
     public UnityEvent<float> OnTakeDamage;
     public UnityEvent OnDie;
     public float CurrentHealth => _currentHealth;
+    public bool IsDead => _currentHealth <= 0;
 
     private void Awake()
     {
@@ -27,10 +25,9 @@ public class Health : MonoBehaviour
     {
         if (!_isImmune)
         {
-            Debug.Log("Take Damage");
             _currentHealth = Mathf.Max(_currentHealth - amount, 0);
             OnTakeDamage?.Invoke(amount);
-            if (CurrentHealth <= 0)
+            if (IsDead)
             {
                 Die();
             }

@@ -147,6 +147,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
   _shooter: {fileID: 4266224073066134525}
+  _projectilePrefab: {fileID: 127431977066739411, guid: 8705aab1379e3bd4e97b3dadcc98bc2d, type: 3}
+  _shotPoint: {fileID: 5292668947534287069}
+  _shotsPerSecond: 2
 --- !u!114 &8366262088042952327
 MonoBehaviour:
   m_ObjectHideFlags: 0

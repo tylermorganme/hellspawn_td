@@ -18,8 +18,10 @@ public class DropEnemiesOnPlatform : MonoBehaviour
     private GameObject _payloadTarget = null;
     private float _timer = 0;
     private GameManager _gameManager;
+    private Vector3 _payloadPoint;
     public GameObject PayloadTarget => _payloadTarget;
     private int _droppedEnemies;
+    private bool _latchedToIsland;
     private bool HasEnemiesToDrop => _droppedEnemies < _enemiesToDrop;
     public bool HasStartedDropping => _droppedEnemies > 0;
 
@@ -71,6 +73,12 @@ public class DropEnemiesOnPlatform : MonoBehaviour
         if (rayCastHit)
         {
             _payloadTarget = hit.collider.gameObject;
+            _payloadPoint = hit.point;
+            if (!_latchedToIsland)
+            {
+                _latchedToIsland = true;
+                gameObject.transform.parent = _gameManager.Island.transform;
+            }
         }
         else
         {
@@ -82,7 +90,7 @@ public class DropEnemiesOnPlatform : MonoBehaviour
     {
         if (_payloadTarget)
         {
-            Instantiate(_enemyPrefab, _payloadTarget.transform.position, Quaternion.identity, _gameManager.Island.transform);
+            Instantiate(_enemyPrefab, _payloadPoint, Quaternion.identity, _gameManager.Island.transform);
             _droppedEnemies++;
         }
         //I might need to come back and set the parent to the island here.
