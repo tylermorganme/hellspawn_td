@@ -10,10 +10,37 @@ public class PlatformManager : MonoBehaviour
 
     private GameObject _wall;
     private GameObject _tower;
+    private float _xCoord;
+    private float _yCoord;
     public bool HasWall => _wall != null;
     public bool HasTower => _tower != null;
     private AstarPath _astar;
     private bool _shouldUpdatePathfinding = false;
+
+    public float X
+    {
+        get
+        {
+            return _xCoord;
+        }
+        set
+        {
+            _xCoord = value;
+        }
+    }
+
+    public float Y
+    {
+        get
+        {
+            return _yCoord;
+        }
+        set
+        {
+            _yCoord = value;
+        }
+    }
+
 
     private void Awake()
     {

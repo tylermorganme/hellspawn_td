@@ -2,20 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public struct Platform {
-    public Platform(int health)
-    {
-        Health = health;
-    }
-    public int Health { get; }
-}
-
 public enum Direction { Up, Down, Left, Right };
 
 public class IslandManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject _platformPrefab;
+    [SerializeField]
+    private GameObject _corePlatform;
     [SerializeField]
     private int _startingRadius;
     [SerializeField]
@@ -25,12 +19,12 @@ public class IslandManager : MonoBehaviour
     [SerializeField]
     private int _initialPlatformHealth = 10;
 
-    private Dictionary<Vector2, Platform> _platforms = new Dictionary<Vector2, Platform>();
+    private Dictionary<Vector2, GameObject > _platforms = new Dictionary<Vector2, GameObject>();
     private bool _hasNewPlatforms = false;
 
     private void Awake()
     {
-        _platforms.Add(Vector2.zero, new Platform(_initialPlatformHealth));
+        AddPlatform(Vector2.zero, _corePlatform);
         for (int x = -_startingRadius; x <= _startingRadius; x++)
         {
             for (int y = -_startingRadius; y <= _startingRadius; y++)
@@ -39,10 +33,9 @@ public class IslandManager : MonoBehaviour
                 {
                     continue;
                 }
-                _platforms.Add(new Vector2(x, y), new Platform(_initialPlatformHealth));
+                AddPlatform(new Vector2(x, y));
             }
         }
-        RenderPlatforms(_platforms);
         _hasNewPlatforms = true;
     }
 
@@ -52,27 +45,28 @@ public class IslandManager : MonoBehaviour
         UpdatePathFinding();
     }
 
-    void RenderPlatforms(Dictionary<Vector2, Platform> platforms)
+
+    GameObject CreatePlatformGameObject(float x, float y, GameObject prefab)
     {
-        foreach (var item in platforms)
-        {
-            // The origin is rendered separately.
-            if (item.Key == Vector2.zero)
-            {
-                continue;
-            }
-            GameObject platform = Instantiate(_platformPrefab, gameObject.transform);
-            platform.transform.localPosition = new Vector3(item.Key.x * +_platformSize, 0, item.Key.y * _platformSize);
-            platform.transform.rotation = gameObject.transform.rotation;
-        }
+        GameObject platform = Instantiate(_platformPrefab, gameObject.transform);
+        platform.transform.localPosition = new Vector3((int)x * +_platformSize, 0, (int)y * _platformSize);
+        platform.transform.rotation = gameObject.transform.rotation;
+        platform.GetComponent<PlatformManager>().X = x;
+        platform.GetComponent<PlatformManager>().Y = y;
+        return platform;
     }
 
     void AddPlatform(Vector2 coords)
     {
-        _platforms.Add(coords, new Platform(_initialPlatformHealth));
-        GameObject platform = Instantiate(_platformPrefab, gameObject.transform);
-        platform.transform.localPosition = new Vector3(coords.x * +_platformSize, 0, coords.y * _platformSize);
-        platform.transform.rotation = gameObject.transform.rotation;
+        GameObject platform = CreatePlatformGameObject(coords.x, coords.y, _platformPrefab);
+        _platforms.Add(coords, platform);
+        UpdatePathFinding();
+        _hasNewPlatforms = true;
+    }
+
+    void AddPlatform(Vector2 coords, GameObject premadePlatform)
+    {
+        _platforms.Add(coords, premadePlatform);
         UpdatePathFinding();
         _hasNewPlatforms = true;
     }
@@ -88,7 +82,7 @@ public class IslandManager : MonoBehaviour
 
         var keys = _platforms.Keys;
         var index = Random.Range(0, keys.Count);
-        KeyValuePair<Vector2, Platform> randomElement = _platforms.ElementAt(index);
+        KeyValuePair<Vector2, GameObject> randomElement = _platforms.ElementAt(index);
         Vector2 checkPlatform = randomElement.Key;
         while (_platforms.ContainsKey(checkPlatform))
         {
