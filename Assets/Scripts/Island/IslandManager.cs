@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
 
 public enum Direction { Up, Down, Left, Right };
 
@@ -16,8 +17,6 @@ public class IslandManager : MonoBehaviour
     private int _platformSize = 10;
     [SerializeField]
     private AstarPath _astar;
-    [SerializeField]
-    private int _initialPlatformHealth = 10;
 
     private Dictionary<Vector2, GameObject > _platforms = new Dictionary<Vector2, GameObject>();
     private bool _hasNewPlatforms = false;
@@ -49,11 +48,24 @@ public class IslandManager : MonoBehaviour
     GameObject CreatePlatformGameObject(float x, float y, GameObject prefab)
     {
         GameObject platform = Instantiate(_platformPrefab, gameObject.transform);
+        PlatformManager platformManager = platform.GetComponent<PlatformManager>();
         platform.transform.localPosition = new Vector3((int)x * +_platformSize, 0, (int)y * _platformSize);
         platform.transform.rotation = gameObject.transform.rotation;
-        platform.GetComponent<PlatformManager>().X = x;
-        platform.GetComponent<PlatformManager>().Y = y;
+        platform.GetComponent<Health>().OnDie.AddListener(HandlePlatformDeath);
+        platformManager.Coord = new Vector2(x, y);
+        platformManager.SetBottomScale(Mathf.Max((100 - new Vector2(x,y).magnitude * _platformSize * 1.5f)  * Random.Range(0.5f, 1), 0));
         return platform;
+    }
+
+    private void HandlePlatformDeath(GameObject platform)
+    {
+        _platforms[platform.GetComponent<PlatformManager>().Coord] = null;
+        Debug.Log("I am aware a platform died");
+    }
+
+    private bool HasPlatformAtCoordinate(Vector2 coord)
+    {
+        return _platforms[coord] != null;
     }
 
     void AddPlatform(Vector2 coords)
@@ -117,7 +129,7 @@ public class IslandManager : MonoBehaviour
 
     }
 
-    void UpdatePathFinding()
+    public void UpdatePathFinding()
     {
         _astar.Scan();
     }

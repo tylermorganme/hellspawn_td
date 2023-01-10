@@ -13,12 +13,18 @@ public class ChangeMaterial : MonoBehaviour
 
     void Awake()
     {
-        foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
-        {
-            _originalMaterials.Add(renderer, renderer.material);
-        }
+        StoreOriginalMaterials();
     }
 
+
+    void StoreOriginalMaterials()
+    {
+        foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
+        {
+            if (!_originalMaterials.ContainsKey(renderer))
+                _originalMaterials.Add(renderer, renderer.material);
+        } 
+    }
     public void RevertToOriginalMaterial()
     {
         foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
@@ -32,6 +38,7 @@ public class ChangeMaterial : MonoBehaviour
 
     public void ChangeToNewMaterial()
     {
+        StoreOriginalMaterials();
         foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
         {
             renderer.material = _newMaterial;

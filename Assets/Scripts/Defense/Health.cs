@@ -11,7 +11,7 @@ public class Health : MonoBehaviour
     bool _isImmune = false;
 
     public UnityEvent<float> OnTakeDamage;
-    public UnityEvent OnDie;
+    public UnityEvent<GameObject> OnDie;
     public float CurrentHealth => _currentHealth;
     public bool IsDead => _currentHealth <= 0;
 
@@ -36,9 +36,11 @@ public class Health : MonoBehaviour
         return false;
     }
 
+    [ContextMenu("Die")]
     public void Die()
     {
-        OnDie?.Invoke();
+        _currentHealth = 0;
+        OnDie?.Invoke(gameObject);
     }
 
     [ContextMenu("Take One Damage")]

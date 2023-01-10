@@ -1,46 +1,37 @@
+using System.Collections;
 using UnityEngine;
 
 
-public class PlatformManager : MonoBehaviour
+public class PlatformManager : MonoBehaviour, IDisposable
 {
     [SerializeField]
     GameObject _wallPrefab;
     [SerializeField]
     GameObject _towerPrefab;
+    [SerializeField]
+    GameObject _platformBottom;
+    [SerializeField]
+    private float _timeToDestroy = 20;
 
     private GameObject _wall;
     private GameObject _tower;
-    private float _xCoord;
-    private float _yCoord;
+    private Vector2 _coord;
     public bool HasWall => _wall != null;
     public bool HasTower => _tower != null;
     private AstarPath _astar;
     private bool _shouldUpdatePathfinding = false;
 
-    public float X
+    public Vector2 Coord
     {
         get
         {
-            return _xCoord;
+            return _coord;
         }
         set
         {
-            _xCoord = value;
+            _coord = value;
         }
     }
-
-    public float Y
-    {
-        get
-        {
-            return _yCoord;
-        }
-        set
-        {
-            _yCoord = value;
-        }
-    }
-
 
     private void Awake()
     {
@@ -144,5 +135,35 @@ public class PlatformManager : MonoBehaviour
     {
         _astar.Scan();
         _shouldUpdatePathfinding = false;
+    }
+
+
+    public void ActivateGravity()
+    {
+        Rigidbody rigidBody = GetComponent<Rigidbody>();
+        rigidBody.useGravity = true;
+        rigidBody.isKinematic = false;
+    }
+    public void Dispose()
+    {
+        transform.localScale *= 0.95f;
+        _shouldUpdatePathfinding = true;
+        ActivateGravity();
+        StartCoroutine(DestroyAfterTime(_timeToDestroy));
+        //Destroy(gameObject);
+    }
+
+    private IEnumerator DestroyAfterTime(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            Destroy(gameObject);
+        }
+    }
+
+    public void SetBottomScale(float scalingFactor)
+    {
+        _platformBottom.transform.localScale = new Vector3(1, scalingFactor, 1);
     }
 }
