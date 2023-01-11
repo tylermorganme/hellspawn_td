@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+// Might need to add a check to this to make sure max is always higher than min because it could cause off side effects.
 public abstract class StatReservoire : MonoBehaviour
 {
     [SerializeField]
@@ -11,6 +12,11 @@ public abstract class StatReservoire : MonoBehaviour
     private float _initialValue;
     [SerializeField]
     private float _currentValue;
+
+    public float MinValue => _minValue;
+    public float MaxValue => _maxValue;
+    public float CurrentValue => _currentValue;
+    public float ValueRange => _maxValue - _minValue;
 
     private void Awake()
     {
@@ -42,6 +48,12 @@ public abstract class StatReservoire : MonoBehaviour
             if (_currentValue == _maxValue)
                 HandleFull();
         }
+    }
+
+    protected virtual void ClearValue()
+    {
+        _currentValue = _minValue;
+        HandleEmpty();
     }
 
     public virtual void ApplyFactor(float value, bool applyToMin, bool applyToCurrent, bool applyToMax)

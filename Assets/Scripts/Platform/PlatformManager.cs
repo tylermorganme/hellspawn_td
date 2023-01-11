@@ -24,8 +24,6 @@ public class PlatformManager : MonoBehaviour, IDisposable
 
     public bool HasWall => _wall != null;
     public bool HasTower => _tower != null;
-
-
     public Vector2 Coord
     {
         get
@@ -103,7 +101,6 @@ public class PlatformManager : MonoBehaviour, IDisposable
     [ContextMenu("ApplyCreationCurrency")]
     private void ApplyCreationCurrency()
     {
-        Debug.Log("ApplyCreationCurrency");
         if (HasTower)
         {
             return;

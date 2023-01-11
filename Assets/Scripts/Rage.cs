@@ -30,6 +30,13 @@ public class Rage : StatReservoire
     protected override void HandleAwake() { }
     public void GainRage()
     {
+        Debug.Log("Gain Rage");
         AddToCurrent(Time.deltaTime * _rageGainRate);
     }
-}
+
+    public void RemoveRage()
+    {
+        Debug.Log("Remove Rage");
+        ClearValue();
+    }
+ }

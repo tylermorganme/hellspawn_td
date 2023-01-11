@@ -285,6 +285,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496061c3a9711cb4799bf19bfc15c7ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shouldLog: 1
+  OnBlockStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3877236185019216979}
+        m_TargetAssemblyTypeName: Rage, Project.Scripts
+        m_MethodName: RemoveRage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnBlocked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3877236185019216979}
+        m_TargetAssemblyTypeName: Rage, Project.Scripts
+        m_MethodName: GainRage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4406321222634205005
 GameObject:
   m_ObjectHideFlags: 0
