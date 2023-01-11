@@ -11,7 +11,7 @@ public class EnemyRunner : MonoBehaviour, IHaveHealth
     [SerializeField]
     Health _health;
     [SerializeField]
-    float _disposeAtDepth = -50f;
+    float _disposeAtDepth = -200f;
     [SerializeField]
     float _disablePathfindingDepth = -1f;
 

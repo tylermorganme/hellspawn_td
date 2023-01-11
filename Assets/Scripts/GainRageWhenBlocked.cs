@@ -9,33 +9,39 @@ public class GainRageWhenBlocked : MonoBehaviour
     private Seeker _seeker;
     private Rage _rage;
     private AstarPath _astar;
-    private Int3 _graphCenter; // This is a vector that
+    private GraphNode _graphCenter; // This is a vector that
 
     private void Awake()
     {
         float nodeSize;
         _seeker = GetComponent<Seeker>();
-        _seeker.pathCallback += GainRage;
+        _seeker.pathCallback += HandlePathChange;
         _rage = GetComponent<Rage>();
         _astar = FindObjectOfType<AstarPath>();
         nodeSize = _astar.data.gridGraph.nodeSize;
-        _graphCenter = new Int3(1, 0, 1) * nodeSize * 1000 / 2;
+
+        // Hard  coding this to zero won't work if the island is moved. Will need to grab a reference to to the island
+        _graphCenter = AstarPath.active.GetNearest(FindObjectOfType<GameManager>().Island.transform.position, NNConstraint.Default).node;
     }
 
-    private void GainRage(Path p)
+    private void HandlePathChange(Path p)
     {
-        // When the seeker things it's headed to the center it has a target of
-        //Debug.Log("Center: " + _graphCenter);
-        //Debug.Log("Target: " + p.path.Last().position);
-        //Debug.Log(p.path.Last().position.Equals(_graphCenter));
-        if (p.path?.LastOrDefault()?.position != _graphCenter)
+        //Inspired  by https://forum.arongranberg.com/t/can-i-know-whether-a-static-destination-is-ever-reachable/7788
+        //GraphNode nearestNode = AstarPath.active.GetNearest(transform.position, NNConstraint.Default).node;
+        //if (nearestNode == null)
+        //    return;
+        if (p.path?.LastOrDefault()?.position == _graphCenter.position)
+        //if (PathUtilities.IsPathPossible(_graphCenter, nearestNode))
         {
-            _rage.GainRage();
-            //Debug.Log("Should Gain Rage! RAAARRRR!");
+            Debug.Log(p.path.LastOrDefault().position);
+            Debug.Log("Valid Path");
+            return;
         }
+        _rage.GainRage();
+
     }
     private void OnDisable()
     {
-        _seeker.pathCallback -= GainRage;
+        _seeker.pathCallback -= HandlePathChange;
     }
 }

@@ -29,7 +29,10 @@ public class DamageOnTriggerEnter : MonoBehaviour
     {
         _damageTimer -= Time.deltaTime;
         if (_hasHitThisFrame)
+        {
             _collider.enabled = false;
+            OnHit.Invoke();
+        }
         if (DamageTimerReady)
             _collider.enabled = true;
     }
@@ -56,7 +59,6 @@ public class DamageOnTriggerEnter : MonoBehaviour
         hitTarget.GetComponent<HurtBox>()?.Health.TakeDamage(_damagePerHit);
         _damageTimer = _timeBetweenHits;
         _hasHitThisFrame = true;
-        OnHit.Invoke();
     }
 
     private bool IsGameObjectInLayerMask(GameObject go, LayerMask layerMask)
