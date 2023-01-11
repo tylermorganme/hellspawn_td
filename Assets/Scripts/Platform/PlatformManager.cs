@@ -12,14 +12,19 @@ public class PlatformManager : MonoBehaviour, IDisposable
     GameObject _platformBottom;
     [SerializeField]
     private float _timeToDestroy = 20;
+    [SerializeField]
+    private int _platformSize = 10; // this should be a scriptable object
 
-    private GameObject _wall;
-    private GameObject _tower;
-    private Vector2 _coord;
+    float _timeBetweenHits = 1f;
+    GameObject _wall;
+    GameObject _tower;
+    Vector2 _coord;
+    AstarPath _astar;
+    bool _shouldUpdatePathfinding = false;
+
     public bool HasWall => _wall != null;
     public bool HasTower => _tower != null;
-    private AstarPath _astar;
-    private bool _shouldUpdatePathfinding = false;
+
 
     public Vector2 Coord
     {
@@ -162,8 +167,9 @@ public class PlatformManager : MonoBehaviour, IDisposable
         }
     }
 
-    public void SetBottomScale(float scalingFactor)
+    public void SetBottomScale(Vector2 location)
     {
-        _platformBottom.transform.localScale = new Vector3(1, scalingFactor, 1);
+        float y = Mathf.Max((100 - location.magnitude * _platformSize * 1.5f) * Random.Range(0.5f, 1), 0);
+        _platformBottom.transform.localScale = new Vector3(1, y, 1);
     }
 }

@@ -14,15 +14,16 @@ public class IslandManager : MonoBehaviour
     [SerializeField]
     private int _startingRadius;
     [SerializeField]
-    private int _platformSize = 10;
-    [SerializeField]
     private AstarPath _astar;
+    [SerializeField]
+    private int _platformSize = 10; // this should be a scriptable object
 
     private Dictionary<Vector2, GameObject > _platforms = new Dictionary<Vector2, GameObject>();
     private bool _hasNewPlatforms = false;
 
     private void Awake()
     {
+        _corePlatform.GetComponent<PlatformManager>().SetBottomScale(Vector2.zero);
         AddPlatform(Vector2.zero, _corePlatform);
         for (int x = -_startingRadius; x <= _startingRadius; x++)
         {
@@ -44,16 +45,15 @@ public class IslandManager : MonoBehaviour
         UpdatePathFinding();
     }
 
-
-    GameObject CreatePlatformGameObject(float x, float y, GameObject prefab)
+    GameObject CreatePlatformGameObject(Vector2 location, GameObject prefab)
     {
         GameObject platform = Instantiate(_platformPrefab, gameObject.transform);
         PlatformManager platformManager = platform.GetComponent<PlatformManager>();
-        platform.transform.localPosition = new Vector3((int)x * +_platformSize, 0, (int)y * _platformSize);
+        platform.transform.localPosition = new Vector3(location.x * +_platformSize, 0, location.y * _platformSize);
         platform.transform.rotation = gameObject.transform.rotation;
         platform.GetComponent<Health>().OnDie.AddListener(HandlePlatformDeath);
-        platformManager.Coord = new Vector2(x, y);
-        platformManager.SetBottomScale(Mathf.Max((100 - new Vector2(x,y).magnitude * _platformSize * 1.5f)  * Random.Range(0.5f, 1), 0));
+        platformManager.Coord = location;
+        platformManager.SetBottomScale(location);
         return platform;
     }
 
@@ -70,7 +70,7 @@ public class IslandManager : MonoBehaviour
 
     void AddPlatform(Vector2 coords)
     {
-        GameObject platform = CreatePlatformGameObject(coords.x, coords.y, _platformPrefab);
+        GameObject platform = CreatePlatformGameObject(coords, _platformPrefab);
         _platforms.Add(coords, platform);
         UpdatePathFinding();
         _hasNewPlatforms = true;

@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _newMaterial: {fileID: 2100000, guid: c70e075a2144ba04784d74b7b2889fd3, type: 2}
-  _revertAfterTime: 0.25
+  _revertAfterTime: 0.5
 --- !u!114 &5951809683437540742
 MonoBehaviour:
   m_ObjectHideFlags: 0

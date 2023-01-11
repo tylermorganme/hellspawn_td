@@ -5,9 +5,17 @@ using UnityEngine.Events;
 public class DamageOnTriggerEnter : MonoBehaviour
 {
     [SerializeField]
-    private float _damagePerHit;
+    float _damagePerHit;
     [SerializeField]
     private LayerMask _layersToCollideWith;
+    [SerializeField]
+    float _timeBetweenHits = 1f;
+
+    float _damageTimer = 0;
+    bool _hasHitThisFrame = false;
+    bool  DamageTimerReady => _damageTimer < 0;
+    
+
 
     public UnityEvent OnHit;
     Collider _collider;
@@ -17,24 +25,38 @@ public class DamageOnTriggerEnter : MonoBehaviour
         _collider = GetComponent<Collider>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        TryHit(other);
+        _damageTimer -= Time.deltaTime;
+        if (_hasHitThisFrame)
+            _collider.enabled = false;
+        if (DamageTimerReady)
+            _collider.enabled = true;
     }
 
-    public void TryHit(Collider other)
+    private void OnTriggerStay(Collider other)
+    {
+        if (_collider.enabled)
+        {
+            TryHit(other);
+        }
+    }
+
+    private void TryHit(Collider other)
     {
         if (IsGameObjectInLayerMask(other.gameObject, _layersToCollideWith))
         {
             Hit(other);
+
         }
     }
 
     private void Hit(Collider hitTarget)
     {
         hitTarget.GetComponent<HurtBox>()?.Health.TakeDamage(_damagePerHit);
+        _damageTimer = _timeBetweenHits;
+        _hasHitThisFrame = true;
         OnHit.Invoke();
-        _collider.enabled = false;
     }
 
     private bool IsGameObjectInLayerMask(GameObject go, LayerMask layerMask)
