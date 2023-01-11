@@ -8,6 +8,6 @@ public class TargetCenter : AIDestinationSetter
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        this.target = _gameManager.Island.transform;
+        target = _gameManager.Island.transform;
     }
 }

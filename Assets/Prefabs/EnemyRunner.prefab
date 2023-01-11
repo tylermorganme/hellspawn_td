@@ -469,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c69434912a3944aaff0400f10d3202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damagePerHit: 1
+  _damagePerHit: 0.1
   _layersToCollideWith:
     serializedVersion: 2
     m_Bits: 128

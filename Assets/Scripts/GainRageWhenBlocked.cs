@@ -9,7 +9,10 @@ public class GainRageWhenBlocked : MonoBehaviour
     private Seeker _seeker;
     private Rage _rage;
     private AstarPath _astar;
-    private GraphNode _graphCenter; // This is a vector that
+    private static GraphNode _graphCenter;
+    private static int _lastFrameUpdate = -1;
+
+    // This is a vector that
 
     private void Awake()
     {
@@ -19,24 +22,28 @@ public class GainRageWhenBlocked : MonoBehaviour
         _rage = GetComponent<Rage>();
         _astar = FindObjectOfType<AstarPath>();
         nodeSize = _astar.data.gridGraph.nodeSize;
+    }
 
-        // Hard  coding this to zero won't work if the island is moved. Will need to grab a reference to to the island
-        _graphCenter = AstarPath.active.GetNearest(FindObjectOfType<GameManager>().Island.transform.position, NNConstraint.Default).node;
+    private void Update()
+    {
+        if (Time.frameCount > _lastFrameUpdate)
+        {
+            _graphCenter = AstarPath.active.GetNearest(FindObjectOfType<GameManager>().Island.transform.position, NNConstraint.Default).node;
+        }
     }
 
     private void HandlePathChange(Path p)
     {
-        //Inspired  by https://forum.arongranberg.com/t/can-i-know-whether-a-static-destination-is-ever-reachable/7788
-        //GraphNode nearestNode = AstarPath.active.GetNearest(transform.position, NNConstraint.Default).node;
-        //if (nearestNode == null)
-        //    return;
+        //Inspired by https://forum.arongranberg.com/t/can-i-know-whether-a-static-destination-is-ever-reachable/7788
+        Debug.Log("Center: " + _graphCenter.position);
+        Debug.Log("Target: " + p.path?.LastOrDefault()?.position);
         if (p.path?.LastOrDefault()?.position == _graphCenter.position)
-        //if (PathUtilities.IsPathPossible(_graphCenter, nearestNode))
         {
             Debug.Log(p.path.LastOrDefault().position);
             Debug.Log("Valid Path");
             return;
         }
+        Debug.Log("No Valid Path");
         _rage.GainRage();
 
     }
