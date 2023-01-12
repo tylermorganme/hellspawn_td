@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8259143067071473104}
   - component: {fileID: 3877236185019216979}
   - component: {fileID: 6392986339589300899}
+  - component: {fileID: 1301203231306622045}
   m_Layer: 0
   m_Name: EnemyRunner
   m_TagString: Enemy
@@ -120,7 +121,7 @@ MonoBehaviour:
   maxAcceleration: -2.5
   rotationSpeed: 360
   slowdownDistance: 0.6
-  pickNextWaypointDist: 10
+  pickNextWaypointDist: 5
   endReachedDistance: 3
   alwaysDrawGizmos: 1
   slowWhenNotFacingTarget: 1
@@ -285,7 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496061c3a9711cb4799bf19bfc15c7ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shouldLog: 1
+  _shouldLog: 0
   OnBlockStart:
     m_PersistentCalls:
       m_Calls: []
@@ -319,6 +320,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1301203231306622045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2762496969728348888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b090bec917bbe4c3bbc612ef13f7c4a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  useRaycasting: 1
+  mask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  thickRaycast: 0
+  thickRaycastRadius: 0
+  use2DPhysics: 0
+  raycastOffset: {x: 0, y: 0, z: 0}
+  useGraphRaycasting: 0
+  quality: 1
 --- !u!1 &4406321222634205005
 GameObject:
   m_ObjectHideFlags: 0
