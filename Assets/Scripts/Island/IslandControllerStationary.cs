@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class IslandController : MonoBehaviour
+public class IslandControllerStationary : MonoBehaviour
 {
     [SerializeField]
     float _rotationSpeed;

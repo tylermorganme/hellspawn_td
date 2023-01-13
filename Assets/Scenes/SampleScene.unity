@@ -763,7 +763,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679754761}
-  m_LocalRotation: {x: 0.38268346, y: 3e-45, z: -1e-45, w: 0.92387956}
+  m_LocalRotation: {x: 0.38268346, y: -1e-45, z: 1e-45, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 100, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1060,6 +1060,7 @@ GameObject:
   - component: {fileID: 745381193}
   - component: {fileID: 745381195}
   - component: {fileID: 745381196}
+  - component: {fileID: 745381199}
   m_Layer: 11
   m_Name: Island
   m_TagString: Untagged
@@ -1074,7 +1075,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745381192}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c750c7268bf69f6408cc4c8bdec2db0c, type: 3}
   m_Name: 
@@ -1201,6 +1202,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &745381199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745381192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e08d0e970f1cc0f4686d422db15cb421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationSpeed: 60
+  _astar: {fileID: 1121476064}
+  _maxSpeed: 150
+  _accelerationRate: 150
 --- !u!1 &797071187 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 667817900621572208, guid: dbff3bfda3abf8345a8a04280bcb07de, type: 3}
@@ -1474,7 +1491,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.38268346, y: 3e-45, z: -1e-45, w: 0.92387956}
+  m_LocalRotation: {x: 0.38268346, y: -1e-45, z: 1e-45, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 100, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2882,7 +2899,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 128381657992986570, guid: 8deff8c7c090d414c8e80f167fef01d6, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 128381657992986570, guid: 8deff8c7c090d414c8e80f167fef01d6, type: 3}
       propertyPath: m_LocalPosition.x

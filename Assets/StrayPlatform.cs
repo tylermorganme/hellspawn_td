@@ -19,7 +19,6 @@ public class StrayPlatform : MonoBehaviour
     {
         _distanceFromTarget = (gameObject.transform.position - _mergeTargetTransform.position).magnitude;
         float lerpFactor = -1f / (_noSnapDistance - _completeSnapDistance) * (_distanceFromTarget - _completeSnapDistance) + 1f;
-        Debug.Log(lerpFactor);
         UpdateRotation(lerpFactor);
         UpdatePosition(lerpFactor);
     }
@@ -37,8 +36,10 @@ public class StrayPlatform : MonoBehaviour
 
     void UpdatePosition(float lerpFactor)
     {
-        float closestX= _platformSize * Mathf.Round(transform.position.x / _platformSize);
+        // this isn't right because it uses world coordinates when it should actually use coordinates relative to the target.
+        float closestX = _platformSize * Mathf.Round(transform.position.x / _platformSize);
         float closestZ = _platformSize * Mathf.Round(transform.position.z / _platformSize);
-        transform.position = Vector3.Lerp(transform.position, new Vector3(closestX, 0, closestZ), lerpFactor);
+        Vector3 offset = new Vector3(_mergeTargetTransform.position.x % _platformSize, 0, _mergeTargetTransform.position.z % _platformSize);
+        transform.position = Vector3.Lerp(transform.position, new Vector3(closestX, 0, closestZ) + offset, lerpFactor);
     }
 }
