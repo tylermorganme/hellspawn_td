@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     float _zoomRate = 0.001f;
     [SerializeField]
-    float _maxZoomFactor = 10;
+    float _maxZoomFactor = 3;
     [SerializeField]
     float _minZoomFactor = 0.5f;
 
