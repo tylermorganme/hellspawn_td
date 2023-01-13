@@ -18,22 +18,30 @@ public class IslandManager : MonoBehaviour
     [SerializeField]
     private int _platformSize = 10; // this should be a scriptable object
 
-    private Dictionary<Vector2, GameObject > _platforms = new Dictionary<Vector2, GameObject>();
+    private Dictionary<Vector2Int, GameObject > _platforms = new Dictionary<Vector2Int, GameObject>();
     private bool _hasNewPlatforms = false;
 
     private void Awake()
     {
+        var gg = AstarPath.active.data.gridGraph;
+        for (int z = 0; z < gg.depth; z++)
+        {
+            for (int x = 0; x < gg.width; x++)
+            {
+                Debug.Log(x+", "+z);
+            }
+        }
         _corePlatform.GetComponent<PlatformManager>().SetBottomScale(Vector2.zero);
-        AddPlatform(Vector2.zero, _corePlatform);
+        AddPlatform(Vector2Int.zero, _corePlatform);
         for (int x = -_startingRadius; x <= _startingRadius; x++)
         {
-            for (int y = -_startingRadius; y <= _startingRadius; y++)
+            for (int z = -_startingRadius; z <= _startingRadius; z++)
             {
-                if ((x == 0 && y == 0) || (new Vector2(x, y).magnitude > _startingRadius))
+                if ((x == 0 && z == 0) || (new Vector2(x, z).magnitude > _startingRadius))
                 {
                     continue;
                 }
-                AddPlatform(new Vector2(x, y));
+                AddPlatform(new Vector2Int(x, z));
             }
         }
         _hasNewPlatforms = true;
@@ -45,7 +53,7 @@ public class IslandManager : MonoBehaviour
         UpdatePathFinding();
     }
 
-    GameObject CreatePlatformGameObject(Vector2 location, GameObject prefab)
+    GameObject CreatePlatformGameObject(Vector2Int location, GameObject prefab)
     {
         GameObject platform = Instantiate(_platformPrefab, gameObject.transform);
         PlatformManager platformManager = platform.GetComponent<PlatformManager>();
@@ -63,12 +71,12 @@ public class IslandManager : MonoBehaviour
         Debug.Log("I am aware a platform died");
     }
 
-    private bool HasPlatformAtCoordinate(Vector2 coord)
+    private bool HasPlatformAtCoordinate(Vector2Int coord)
     {
         return _platforms[coord] != null;
     }
 
-    void AddPlatform(Vector2 coords)
+    void AddPlatform(Vector2Int coords)
     {
         GameObject platform = CreatePlatformGameObject(coords, _platformPrefab);
         _platforms.Add(coords, platform);
@@ -76,7 +84,7 @@ public class IslandManager : MonoBehaviour
         _hasNewPlatforms = true;
     }
 
-    void AddPlatform(Vector2 coords, GameObject premadePlatform)
+    void AddPlatform(Vector2Int coords, GameObject premadePlatform)
     {
         _platforms.Add(coords, premadePlatform);
         UpdatePathFinding();
@@ -85,17 +93,17 @@ public class IslandManager : MonoBehaviour
 
     void GrowPlatformInDirection(Direction direction)
     {
-        Vector2 directionVector = Vector2.zero;
-        if (direction == Direction.Up) directionVector = Vector2.up;
-        if (direction == Direction.Down) directionVector = Vector2.down;
+        Vector2Int directionVector = Vector2Int.zero;
+        if (direction == Direction.Up) directionVector = Vector2Int.up;
+        if (direction == Direction.Down) directionVector = Vector2Int.down;
         // Not sure why these need to be opposite but it seems to work.
-        if (direction == Direction.Left) directionVector = Vector2.right;
-        if (direction == Direction.Right) directionVector = Vector2.left;
+        if (direction == Direction.Left) directionVector = Vector2Int.right;
+        if (direction == Direction.Right) directionVector = Vector2Int.left;
 
         var keys = _platforms.Keys;
         var index = Random.Range(0, keys.Count);
-        KeyValuePair<Vector2, GameObject> randomElement = _platforms.ElementAt(index);
-        Vector2 checkPlatform = randomElement.Key;
+        KeyValuePair<Vector2Int, GameObject> randomElement = _platforms.ElementAt(index);
+        Vector2Int checkPlatform = randomElement.Key;
         while (_platforms.ContainsKey(checkPlatform))
         {
             checkPlatform = checkPlatform + directionVector;
@@ -132,5 +140,22 @@ public class IslandManager : MonoBehaviour
     public void UpdatePathFinding()
     {
         _astar.Scan();
+    }
+
+    public Vector2Int[] NodesAtGridSpace(Vector2Int location)
+    {
+        Vector2Int[] baseVectors =
+        {
+            Vector2Int.zero,
+            Vector2Int.one,
+            Vector2Int.right,
+            Vector2Int.up
+        };
+        return new Vector2Int[] {
+            Vector2Int.zero + location,
+            Vector2Int.one + location,
+            Vector2Int.right + location,
+            Vector2Int.up + location
+        };
     }
 }

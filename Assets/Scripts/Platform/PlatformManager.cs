@@ -18,13 +18,13 @@ public class PlatformManager : MonoBehaviour, IDisposable
     float _timeBetweenHits = 1f;
     GameObject _wall;
     GameObject _tower;
-    Vector2 _coord;
+    Vector2Int _coord;
     AstarPath _astar;
     bool _shouldUpdatePathfinding = false;
 
     public bool HasWall => _wall != null;
     public bool HasTower => _tower != null;
-    public Vector2 Coord
+    public Vector2Int Coord
     {
         get
         {
