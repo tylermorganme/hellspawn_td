@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
 using Pathfinding;
+using System;
 
 public enum Direction { Up, Down, Left, Right };
 
@@ -20,27 +21,15 @@ public class IslandManager : MonoBehaviour
     private int _platformSize = 10; // this should be a scriptable object
 
     private Dictionary<Vector2Int, GameObject > _platforms = new Dictionary<Vector2Int, GameObject>();
-    private bool _hasNewPlatforms = false;
-    private List<Vector2Int> _addedPlatforms;
-    private List<Vector2Int> _removedPlatforms;
+    private List<Vector2Int> _walkableAreas;
+    private List<Vector2Int> _blockedAreas;
 
 
     private void Awake()
     {
-        AstarPath.active.Scan();
-        var gg = AstarPath.active.data.gridGraph;
-        for (int z = 0; z < gg.depth; z++)
-        {
-            for (int x = 0; x < gg.width; x++)
-            {
-                Debug.Log(x + ", " + z);
-                var node = gg.GetNode(x, z);
-                // This example uses perlin noise to generate the map
-            }
-        }
-
-        _addedPlatforms = new List<Vector2Int> { };
-        _removedPlatforms = new List<Vector2Int> { };
+        _astar.data.gridGraph.Scan();
+        _walkableAreas = new List<Vector2Int> { };
+        _blockedAreas = new List<Vector2Int> { };
         _corePlatform.GetComponent<PlatformManager>().SetBottomScale(Vector2.zero);
         AddPlatform(Vector2Int.zero, _corePlatform);
         for (int x = -_startingRadius; x <= _startingRadius; x++)
@@ -54,13 +43,6 @@ public class IslandManager : MonoBehaviour
                 AddPlatform(new Vector2Int(x, z));
             }
         }
-        _hasNewPlatforms = true;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //UpdatePathFinding();
     }
 
     GameObject CreatePlatformGameObject(Vector2Int location, GameObject prefab)
@@ -69,16 +51,9 @@ public class IslandManager : MonoBehaviour
         PlatformManager platformManager = platform.GetComponent<PlatformManager>();
         platform.transform.localPosition = new Vector3(location.x * +_platformSize, 0, location.y * _platformSize);
         platform.transform.rotation = gameObject.transform.rotation;
-        platform.GetComponent<Health>().OnDie.AddListener(HandlePlatformDeath);
         platformManager.Coord = location;
         platformManager.SetBottomScale(location);
         return platform;
-    }
-
-    private void HandlePlatformDeath(GameObject platform)
-    {
-        _platforms[platform.GetComponent<PlatformManager>().Coord] = null;
-        Debug.Log("I am aware a platform died");
     }
 
     private bool HasPlatformAtCoordinate(Vector2Int coord)
@@ -90,81 +65,27 @@ public class IslandManager : MonoBehaviour
     {
         GameObject platform = CreatePlatformGameObject(coords, _platformPrefab);
         _platforms.Add(coords, platform);
-        //if (platform.GetComponent<PlatformManager>().HasNoBuildings)
-        //{
-        _addedPlatforms.Add(coords);
-        //SetPlatformWalkable(coords);
-        //}
-        //UpdatePathFinding();
-        //_hasNewPlatforms = true;
+        _walkableAreas.Add(coords);
     }
 
     void AddPlatform(Vector2Int coords, GameObject premadePlatform)
     {
         _platforms.Add(coords, premadePlatform);
-        //if (premadePlatform.GetComponent<PlatformManager>().HasNoBuildings)
-        //{
-        _addedPlatforms.Add(coords);
-        //SetPlatformWalkable(coords);
-        //}
-        //UpdatePathFinding();
-        //_hasNewPlatforms = true;
+        _walkableAreas.Add(coords);
     }
 
-    void GrowPlatformInDirection(Direction direction)
+    void LateUpdate()
     {
-        Vector2Int directionVector = Vector2Int.zero;
-        if (direction == Direction.Up) directionVector = Vector2Int.up;
-        if (direction == Direction.Down) directionVector = Vector2Int.down;
-        // Not sure why these need to be opposite but it seems to work.
-        if (direction == Direction.Left) directionVector = Vector2Int.right;
-        if (direction == Direction.Right) directionVector = Vector2Int.left;
 
-        var keys = _platforms.Keys;
-        var index = Random.Range(0, keys.Count);
-        KeyValuePair<Vector2Int, GameObject> randomElement = _platforms.ElementAt(index);
-        Vector2Int checkPlatform = randomElement.Key;
-        while (_platforms.ContainsKey(checkPlatform))
-        {
-            checkPlatform = checkPlatform + directionVector;
-            // If it gets to the origin, keep going.
-            if (checkPlatform == Vector2.zero)
-            {
-                checkPlatform = checkPlatform + directionVector;
-            }
-        }
-        AddPlatform(checkPlatform);
-    }
-
-    [ContextMenu("GrowUp")]
-    public void GrowPlatformUp() => GrowPlatformInDirection(Direction.Up);
-    [ContextMenu("GrowDown")]
-    public void GrowPlatformDown() => GrowPlatformInDirection(Direction.Down);
-    [ContextMenu("GrowLeft")]
-    public void GrowPlatformLeft() => GrowPlatformInDirection(Direction.Left);
-    [ContextMenu("GrowRight")]
-    public void GrowPlatformRight() => GrowPlatformInDirection(Direction.Right);
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (_hasNewPlatforms)
-        {
-            UpdatePathFinding();
-            _hasNewPlatforms = false;
-        }
-    }
-
-    private void LateUpdate()
-    {
-        SetPlatformsWalkable(_addedPlatforms);
-        _addedPlatforms = new List<Vector2Int> { };
+        UpdatePathFinding();
     }
 
     public void UpdatePathFinding()
     {
-        //Physics.SyncTransforms();
-        //_astar.Scan();
+        SetPlatformsWalkability(_walkableAreas, true);
+        SetPlatformsWalkability(_blockedAreas, false);
+        _walkableAreas = new List<Vector2Int> { };
+        _blockedAreas = new List<Vector2Int> { };
     }
 
     public Vector2Int[] GetGridIndicesAtPlatform(Vector2Int location)
@@ -180,7 +101,25 @@ public class IslandManager : MonoBehaviour
         };
     }
 
-    public void SetPlatformsWalkable(List<Vector2Int> locations)
+    public void HandleWallBuilt(Vector2Int location)
+    {
+        Debug.Log("XXX");
+        _blockedAreas.Add(location);
+    }
+
+    public void HandleWallRemoved(Vector2Int location)
+    {
+        _walkableAreas.Add(location);
+    }
+
+    public void HandlePlatformDeath(Vector2Int location)
+    {
+        _blockedAreas.Add(location);
+        _platforms[location] = null;
+        Debug.Log("I am aware a platform died");
+    }
+
+    public void SetPlatformsWalkability(List<Vector2Int> locations, bool isWalkable)
     {
         List<Vector2Int> locationVectors= new List<Vector2Int> { };
         
@@ -195,16 +134,16 @@ public class IslandManager : MonoBehaviour
             var gg = AstarPath.active.data.gridGraph;
             foreach (Vector2Int vector in locationVectors)
             {
-                Debug.Log(vector.x + ", " + vector.y);
+                Debug.Log(isWalkable);
                 var node = gg.GetNode(vector.x, vector.y);
-                node.Walkable = true;
-                //gg.CalculateConnectionsForCellAndNeighbours(location.x, location.y);
+                node.Walkable = isWalkable;
+                gg.CalculateConnectionsForCellAndNeighbours(vector.x, vector.y);
             }
 
             // https://arongranberg.com/astar/docs/graphupdates.html#smaller-updates
             // Recalculate all grid connections
             // This is required because we have updated the walkability of some nodes
-            gg.GetNodes(node => gg.CalculateConnections((GridNodeBase)node));
+            //gg.GetNodes(node => gg.CalculateConnections((GridNodeBase)node));
         }));
     }
 }

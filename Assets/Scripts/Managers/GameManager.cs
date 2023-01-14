@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject Island => _island;
     public Camera Camera => _camera;
     public CurrencyManager CurrencyManager => _currencyManager;
+    public IslandManager IslandManager => _island.GetComponent<IslandManager>();
 
     public UnityEvent OnGameStart;
     public UnityEvent OnGamePause;

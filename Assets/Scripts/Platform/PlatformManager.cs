@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
-
-public class PlatformManager : MonoBehaviour, IDisposable
+public class PlatformManager : MonoBehaviour
 {
     [SerializeField]
     GameObject _wallPrefab;
@@ -15,11 +15,10 @@ public class PlatformManager : MonoBehaviour, IDisposable
     [SerializeField]
     private int _platformSize = 10; // this should be a scriptable object
 
-    float _timeBetweenHits = 1f;
     GameObject _wall;
     GameObject _tower;
     Vector2Int _coord;
-    AstarPath _astar;
+    IslandManager _islandManager;
     bool _shouldUpdatePathfinding = false;
 
     public bool HasWall => _wall != null;
@@ -39,24 +38,16 @@ public class PlatformManager : MonoBehaviour, IDisposable
 
     private void Awake()
     {
-        _astar = FindObjectOfType<AstarPath>();
-    }
-
-    private void LateUpdate()
-    {
-        if (_shouldUpdatePathfinding)
-        {
-            //UpdatePathfinding();
-        }
+        _islandManager = FindObjectOfType<GameManager>().IslandManager;
     }
 
     private void BuildWall()
     {
         if (_wall == null)
         {
+            _islandManager.HandleWallBuilt(_coord);
             _wall = Instantiate(_wallPrefab, transform.position, transform.rotation, gameObject.transform);
         }
-        _shouldUpdatePathfinding = true;
     }
 
     private void BuildTower()
@@ -65,21 +56,19 @@ public class PlatformManager : MonoBehaviour, IDisposable
         {
             _tower = Instantiate(_towerPrefab, transform.position, transform.rotation, gameObject.transform);
         }
-        _shouldUpdatePathfinding = true;
     }
 
-    private void DestroyWall()
+    private void RemoveWall()
     {
+        _islandManager.HandleWallRemoved(_coord);
         // This should be replace with a Destroy method on the wall.
         Destroy(_wall);
-        _shouldUpdatePathfinding = true;
     }
 
     private void DestroyTower()
     {
         // This should be replace with a Destroy method on the tower.
         Destroy(_tower);
-        _shouldUpdatePathfinding = true;
     }
 
     public void TryApplyCurrency(Currency c)
@@ -129,18 +118,16 @@ public class PlatformManager : MonoBehaviour, IDisposable
         } else if (HasWall)
         {
             // TODO: Reduce currency
-            DestroyWall();
+            RemoveWall();
             return;
         }
     }
 
-    private void UpdatePathfinding()
+    public void HandleDeath()
     {
-        //Physics.SyncTransforms();
-        _astar.Scan();
-        _shouldUpdatePathfinding = false;
+        _islandManager.HandlePlatformDeath(_coord);
+        Dispose();
     }
-
 
     public void ActivateGravity()
     {
@@ -148,13 +135,11 @@ public class PlatformManager : MonoBehaviour, IDisposable
         rigidBody.useGravity = true;
         rigidBody.isKinematic = false;
     }
-    public void Dispose()
+    private void Dispose()
     {
         transform.localScale *= 0.95f;
-        _shouldUpdatePathfinding = true;
         ActivateGravity();
         StartCoroutine(DestroyAfterTime(_timeToDestroy));
-        //Destroy(gameObject);
     }
 
     private IEnumerator DestroyAfterTime(float waitTime)
