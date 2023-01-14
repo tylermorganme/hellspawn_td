@@ -63,9 +63,12 @@ public class IslandManager : MonoBehaviour
 
     void AddPlatform(Vector2Int coords)
     {
-        GameObject platform = CreatePlatformGameObject(coords, _platformPrefab);
-        _platforms.Add(coords, platform);
-        _walkableAreas.Add(coords);
+        if (_platforms.GetValueOrDefault(coords) == null)
+        {
+            GameObject platform = CreatePlatformGameObject(coords, _platformPrefab);
+            _platforms.Add(coords, platform);
+            _walkableAreas.Add(coords);
+        }
     }
 
     void AddPlatform(Vector2Int coords, GameObject premadePlatform)
@@ -83,6 +86,7 @@ public class IslandManager : MonoBehaviour
     public void UpdatePathFinding()
     {
         SetPlatformsWalkability(_walkableAreas, true);
+        SetPlatformsWalkability(_blockedAreas, false);
         SetPlatformsWalkability(_blockedAreas, false);
         _walkableAreas = new List<Vector2Int> { };
         _blockedAreas = new List<Vector2Int> { };
