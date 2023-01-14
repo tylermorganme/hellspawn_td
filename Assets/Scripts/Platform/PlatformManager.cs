@@ -24,6 +24,7 @@ public class PlatformManager : MonoBehaviour, IDisposable
 
     public bool HasWall => _wall != null;
     public bool HasTower => _tower != null;
+    public bool HasNoBuildings => _tower == null & _wall == null;
     public Vector2Int Coord
     {
         get
@@ -45,7 +46,7 @@ public class PlatformManager : MonoBehaviour, IDisposable
     {
         if (_shouldUpdatePathfinding)
         {
-            UpdatePathfinding();
+            //UpdatePathfinding();
         }
     }
 
@@ -135,6 +136,7 @@ public class PlatformManager : MonoBehaviour, IDisposable
 
     private void UpdatePathfinding()
     {
+        //Physics.SyncTransforms();
         _astar.Scan();
         _shouldUpdatePathfinding = false;
     }

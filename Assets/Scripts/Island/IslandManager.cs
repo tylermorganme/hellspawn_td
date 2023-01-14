@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
+using Pathfinding;
 
 public enum Direction { Up, Down, Left, Right };
 
@@ -20,17 +21,26 @@ public class IslandManager : MonoBehaviour
 
     private Dictionary<Vector2Int, GameObject > _platforms = new Dictionary<Vector2Int, GameObject>();
     private bool _hasNewPlatforms = false;
+    private List<Vector2Int> _addedPlatforms;
+    private List<Vector2Int> _removedPlatforms;
+
 
     private void Awake()
     {
+        AstarPath.active.Scan();
         var gg = AstarPath.active.data.gridGraph;
         for (int z = 0; z < gg.depth; z++)
         {
             for (int x = 0; x < gg.width; x++)
             {
-                Debug.Log(x+", "+z);
+                Debug.Log(x + ", " + z);
+                var node = gg.GetNode(x, z);
+                // This example uses perlin noise to generate the map
             }
         }
+
+        _addedPlatforms = new List<Vector2Int> { };
+        _removedPlatforms = new List<Vector2Int> { };
         _corePlatform.GetComponent<PlatformManager>().SetBottomScale(Vector2.zero);
         AddPlatform(Vector2Int.zero, _corePlatform);
         for (int x = -_startingRadius; x <= _startingRadius; x++)
@@ -50,7 +60,7 @@ public class IslandManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdatePathFinding();
+        //UpdatePathFinding();
     }
 
     GameObject CreatePlatformGameObject(Vector2Int location, GameObject prefab)
@@ -80,15 +90,25 @@ public class IslandManager : MonoBehaviour
     {
         GameObject platform = CreatePlatformGameObject(coords, _platformPrefab);
         _platforms.Add(coords, platform);
-        UpdatePathFinding();
-        _hasNewPlatforms = true;
+        //if (platform.GetComponent<PlatformManager>().HasNoBuildings)
+        //{
+        _addedPlatforms.Add(coords);
+        //SetPlatformWalkable(coords);
+        //}
+        //UpdatePathFinding();
+        //_hasNewPlatforms = true;
     }
 
     void AddPlatform(Vector2Int coords, GameObject premadePlatform)
     {
         _platforms.Add(coords, premadePlatform);
-        UpdatePathFinding();
-        _hasNewPlatforms = true;
+        //if (premadePlatform.GetComponent<PlatformManager>().HasNoBuildings)
+        //{
+        _addedPlatforms.Add(coords);
+        //SetPlatformWalkable(coords);
+        //}
+        //UpdatePathFinding();
+        //_hasNewPlatforms = true;
     }
 
     void GrowPlatformInDirection(Direction direction)
@@ -116,7 +136,6 @@ public class IslandManager : MonoBehaviour
         AddPlatform(checkPlatform);
     }
 
-    
     [ContextMenu("GrowUp")]
     public void GrowPlatformUp() => GrowPlatformInDirection(Direction.Up);
     [ContextMenu("GrowDown")]
@@ -134,28 +153,58 @@ public class IslandManager : MonoBehaviour
             UpdatePathFinding();
             _hasNewPlatforms = false;
         }
+    }
 
+    private void LateUpdate()
+    {
+        SetPlatformsWalkable(_addedPlatforms);
+        _addedPlatforms = new List<Vector2Int> { };
     }
 
     public void UpdatePathFinding()
     {
-        _astar.Scan();
+        //Physics.SyncTransforms();
+        //_astar.Scan();
     }
 
-    public Vector2Int[] NodesAtGridSpace(Vector2Int location)
+    public Vector2Int[] GetGridIndicesAtPlatform(Vector2Int location)
     {
-        Vector2Int[] baseVectors =
-        {
-            Vector2Int.zero,
-            Vector2Int.one,
-            Vector2Int.right,
-            Vector2Int.up
-        };
+
+        Vector2Int modifiedLocation = Vector2Int.one * 49 + location * 2;
+
         return new Vector2Int[] {
-            Vector2Int.zero + location,
-            Vector2Int.one + location,
-            Vector2Int.right + location,
-            Vector2Int.up + location
+            Vector2Int.zero + modifiedLocation,
+            Vector2Int.one + modifiedLocation,
+            Vector2Int.right + modifiedLocation,
+            Vector2Int.up + modifiedLocation
         };
+    }
+
+    public void SetPlatformsWalkable(List<Vector2Int> locations)
+    {
+        List<Vector2Int> locationVectors= new List<Vector2Int> { };
+        
+        foreach (Vector2Int location in locations)
+        {
+            locationVectors.AddRange(GetGridIndicesAtPlatform(location));
+        }
+
+        //= GetGridIndicesAtPlatform(location);
+        AstarPath.active.AddWorkItem(new AstarWorkItem(ctx =>
+        {
+            var gg = AstarPath.active.data.gridGraph;
+            foreach (Vector2Int vector in locationVectors)
+            {
+                Debug.Log(vector.x + ", " + vector.y);
+                var node = gg.GetNode(vector.x, vector.y);
+                node.Walkable = true;
+                //gg.CalculateConnectionsForCellAndNeighbours(location.x, location.y);
+            }
+
+            // https://arongranberg.com/astar/docs/graphupdates.html#smaller-updates
+            // Recalculate all grid connections
+            // This is required because we have updated the walkability of some nodes
+            gg.GetNodes(node => gg.CalculateConnections((GridNodeBase)node));
+        }));
     }
 }

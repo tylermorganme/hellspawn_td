@@ -21,7 +21,7 @@ public class Rage : StatReservoire
     public override void HandleFull()
     {
         IsEnraged = true;
-        Debug.Log("Full");
+        //Debug.Log("Full");
         OnRageFull?.Invoke(transform);
     }
 
@@ -30,13 +30,13 @@ public class Rage : StatReservoire
     protected override void HandleAwake() { }
     public void GainRage()
     {
-        Debug.Log("Gain Rage");
+        //Debug.Log("Gain Rage");
         AddToCurrent(Time.deltaTime * _rageGainRate);
     }
 
     public void RemoveRage()
     {
-        Debug.Log("Remove Rage");
+        //Debug.Log("Remove Rage");
         ClearValue();
     }
  }
