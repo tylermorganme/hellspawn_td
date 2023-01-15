@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StrayPlatform : MonoBehaviour
@@ -12,15 +14,34 @@ public class StrayPlatform : MonoBehaviour
     Transform _mergeTargetTransform;
     float _distanceFromTarget;
 
+    IslandManager _islandManager;
+    IEnumerable<Transform> _childTransforms;
 
+    private void Awake()
+    {
+        _islandManager = FindObjectOfType<GameManager>().IslandManager;
+        _childTransforms = gameObject.GetComponentsInChildren<Transform>().Where(c => c.parent == transform);
+        Transform[] children = gameObject.GetComponentsInChildren<Transform>();
+        //// It  is assumed that direct children are platforms
+        //var directChildTransforms = new List<Transform> { };
+        //// This will get the directChildren
+        //foreach (Transform child in children)
+        //{
+        //    if (child.parent == transform)
+        //    {
+        //        directChildTransforms.Add(child);
+        //    }
+        //}
+        //Debug.Log(directChildTransforms.Count);
+    }
     // Use late update here to make sure the rotation of the Island controller can do it's thing before this platform tries to match.
     // It's really important to have thigns synced nicely.
-    void LateUpdate()
+    void LateUpdate() // This might actually need to be in update? Not sure why it ended up in LateUpdate
     {
         _distanceFromTarget = (gameObject.transform.position - _mergeTargetTransform.position).magnitude;
         float lerpFactor = -1f / (_noSnapDistance - _completeSnapDistance) * (_distanceFromTarget - _completeSnapDistance) + 1f;
         UpdateRotation(lerpFactor);
-        UpdatePosition(lerpFactor);
+        //UpdatePosition(lerpFactor);
     }
 
     void UpdateRotation(float lerpFactor)
@@ -32,6 +53,12 @@ public class StrayPlatform : MonoBehaviour
 
         float closestMultiple = 90 * Mathf.Round((currentY - targetY) / 90) % 360;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, targetY + closestMultiple, 0), lerpFactor);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        _islandManager.HandleStrayPlatformCollison(_childTransforms);
+        Destroy(gameObject);
     }
 
     void UpdatePosition(float lerpFactor)

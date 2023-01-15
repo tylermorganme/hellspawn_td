@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.Events;
 using Pathfinding;
-using System;
 
 public enum Direction { Up, Down, Left, Right };
 
@@ -56,18 +54,34 @@ public class IslandManager : MonoBehaviour
         return platform;
     }
 
-    private bool HasPlatformAtCoordinate(Vector2Int coord)
+    public void HandleStrayPlatformCollison(IEnumerable<Transform> transforms)
     {
-        return _platforms[coord] != null;
+        foreach (Transform trans in transforms)
+        {
+            // Convert to local space
+            Vector3 transformedPosition = transform.InverseTransformPoint(trans.position);
+
+            // Round to grid spacing
+            int gridX = (int)Mathf.Round(transformedPosition.x / 10);
+            int gridZ = (int)Mathf.Round(transformedPosition.z / 10);
+            Debug.Log(gridX + ", " + gridZ);
+            AddPlatform(new Vector2Int(gridX, gridZ));
+        }
+        //Debug.Log(transforms.Count());
     }
 
-    void AddPlatform(Vector2Int coords)
+    private bool HasPlatformAtCoordinate(Vector2Int coord)
     {
-        if (_platforms.GetValueOrDefault(coords) == null)
+        return _platforms.GetValueOrDefault(coord) != null;
+    }
+
+    void AddPlatform(Vector2Int coord)
+    {
+        if (!HasPlatformAtCoordinate(coord))
         {
-            GameObject platform = CreatePlatformGameObject(coords, _platformPrefab);
-            _platforms.Add(coords, platform);
-            _walkableAreas.Add(coords);
+            GameObject platform = CreatePlatformGameObject(coord, _platformPrefab);
+            _platforms.Add(coord, platform);
+            _walkableAreas.Add(coord);
         }
     }
 
@@ -138,7 +152,6 @@ public class IslandManager : MonoBehaviour
             var gg = AstarPath.active.data.gridGraph;
             foreach (Vector2Int vector in locationVectors)
             {
-                Debug.Log(isWalkable);
                 var node = gg.GetNode(vector.x, vector.y);
                 node.Walkable = isWalkable;
                 gg.CalculateConnectionsForCellAndNeighbours(vector.x, vector.y);

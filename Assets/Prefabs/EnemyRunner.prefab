@@ -414,7 +414,7 @@ GameObject:
   - component: {fileID: 1226646271309129503}
   - component: {fileID: 5403391957396617085}
   - component: {fileID: 9140535447428677048}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HitBoxCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,7 +493,7 @@ GameObject:
   - component: {fileID: 6681579954112988285}
   - component: {fileID: 1737791806935355800}
   - component: {fileID: 7907624332481118230}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HitBoxPlatforms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
